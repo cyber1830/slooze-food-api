@@ -1,6 +1,6 @@
 # Urban Eats: role- and country-aware food ordering
 
-Full-stack take-home: **NestJS + GraphQL + Prisma** API, **Next.js + TypeScript + Tailwind + Apollo Client** web app.
+Full-stack app: **NestJS + GraphQL + Prisma** API, **Next.js + TypeScript + Tailwind + Apollo Client** web app.
 Implements the RBAC matrix from the assignment plus the **Re-BAC bonus** (Managers and Members are confined to their own country).
 
 ## Run locally
@@ -60,9 +60,6 @@ Demo accounts (password for all: `password123`):
 - The frontend mirrors the matrix in `frontend/src/lib/policy.ts` only to hide buttons. The API is the source of truth.
 - Orders have a `DRAFT` stage (the cart), then `PLACED` or `CANCELLED`. Each order stores its restaurant's `country`, which is the scoping key. One open cart per user, one restaurant per cart.
 - Payment is simulated: placing an order records the chosen method and flips the status. No money moves.
-
-More detail: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Sample operations for every query and mutation: [`docs/api-collection.graphql`](docs/api-collection.graphql). Paste them into Apollo Sandbox at `http://localhost:4000/graphql`.
-
 ## Known limits
 
 - SQLite and string columns instead of enums, to keep setup to one command. For production, switch the Prisma provider to PostgreSQL and make `role`, `country` and `status` native enums.
