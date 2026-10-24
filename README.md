@@ -45,7 +45,7 @@ Demo accounts (password for all: `password123`):
 
 **Re-BAC:** Admin sees everything. A Manager sees every restaurant and order in their country. A Member sees their country's restaurants and only their own orders. Anything outside that scope returns "not found" rather than "forbidden", so ids from the other country are not even confirmed to exist.
 
-## Try the access model (about 3 minutes)
+## Try the access model
 
 1. Sign in as **Thanos** (Member, India). Only Indian restaurants appear. Add a few dishes. There is no checkout, only a note that a manager must pay.
 2. Sign out, sign in as **Captain Marvel** (Manager, India). Orders shows Thanos's draft. Pay and place it with the company card. Payment methods are visible but read only.
