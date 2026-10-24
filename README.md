@@ -1,7 +1,7 @@
 # Urban Eats: role- and country-aware food ordering
 
 Full-stack app: **NestJS + GraphQL + Prisma** API, **Next.js + TypeScript + Tailwind + Apollo Client** web app.
-Implements the RBAC matrix from the assignment plus the **Re-BAC bonus** (Managers and Members are confined to their own country).
+Implements the RBAC matrix from the assignment plus the **Re-BAC** (Managers and Members are confined to their own country).
 
 ## Run locally
 
