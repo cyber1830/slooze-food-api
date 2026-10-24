@@ -1,0 +1,30 @@
+# Paste each operation into Apollo Sandbox (http://localhost:4000/graphql).
+# Set the HTTP header:  Authorization: Bearer <accessToken from login>
+
+mutation Login { login(email: "captain.marvel@slooze.xyz", password: "password123") { accessToken user { id name role country } } }
+
+query Me { me { id name role country } }
+
+query Restaurants { restaurants { id name cuisine country menuItems { id name price } } }
+
+query Restaurant { restaurant(id: "RESTAURANT_ID") { id name menuItems { id name price } } }
+
+query MyCart { myCart { id status total items { quantity menuItem { name } } } }
+
+# delta > 0 adds, delta < 0 removes
+mutation AddToCart { changeCartItem(menuItemId: "MENU_ITEM_ID", delta: 1) { id total items { quantity menuItem { name } } } }
+
+query Orders { orders { id status country total user { name } restaurant { name } } }
+
+# Admin and Manager only
+mutation Place { placeOrder(orderId: "ORDER_ID", paymentMethodId: "PAYMENT_METHOD_ID") { id status paymentMethod { label } } }
+
+# Admin and Manager only
+mutation Cancel { cancelOrder(orderId: "ORDER_ID") { id status } }
+
+# Admin and Manager can read
+query PaymentMethods { paymentMethods { id type label last4 isDefault } }
+
+# Admin only
+mutation AddPayment { addPaymentMethod(input: { type: "CARD", label: "Team Amex", last4: "0005" }) { id } }
+mutation UpdatePayment { updatePaymentMethod(id: "PAYMENT_METHOD_ID", input: { isDefault: true }) { id isDefault } }

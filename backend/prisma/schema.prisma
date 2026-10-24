@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" // swap to postgresql for production; enums become native then
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String  @id @default(cuid())
+  name     String
+  email    String  @unique
+  password String
+  role     String // ADMIN | MANAGER | MEMBER
+  country  String // INDIA | AMERICA
+  orders   Order[]
+}
+
+model Restaurant {
+  id        String     @id @default(cuid())
+  name      String
+  cuisine   String
+  country   String
+  menuItems MenuItem[]
+  orders    Order[]
+}
+
+model MenuItem {
+  id           String      @id @default(cuid())
+  name         String
+  description  String      @default("")
+  price        Float
+  restaurantId String
+  restaurant   Restaurant  @relation(fields: [restaurantId], references: [id])
+  orderItems   OrderItem[]
+}
+
+model PaymentMethod {
+  id        String  @id @default(cuid())
+  type      String // CARD | UPI | PAYPAL
+  label     String
+  last4     String  @default("")
+  isDefault Boolean @default(false)
+  orders    Order[]
+}
+
+model Order {
+  id              String         @id @default(cuid())
+  status          String         @default("DRAFT") // DRAFT | PLACED | CANCELLED
+  country         String // copied from the restaurant: the Re-BAC scope key
+  total           Float          @default(0)
+  createdAt       DateTime       @default(now())
+  placedAt        DateTime?
+  userId          String
+  user            User           @relation(fields: [userId], references: [id])
+  restaurantId    String
+  restaurant      Restaurant     @relation(fields: [restaurantId], references: [id])
+  paymentMethodId String?
+  paymentMethod   PaymentMethod? @relation(fields: [paymentMethodId], references: [id])
+  items           OrderItem[]
+
+  @@index([country, status])
+}
+
+model OrderItem {
+  id         String   @id @default(cuid())
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuItemId String
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+  quantity   Int
+  unitPrice  Float
+
+  @@unique([orderId, menuItemId])
+}
